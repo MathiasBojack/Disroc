@@ -6,6 +6,7 @@
 % hr          = 0.33;
 % beta        = 0.1;
 % beta_angle  = 1;
+proj_name = 'SingleFracture0';
 
 beta_list                 = kron(ones(1,4),[1,0.1,1.8])';
 beta_angle_list           = ones(1,12)';

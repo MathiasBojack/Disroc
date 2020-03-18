@@ -1,17 +1,12 @@
 clc
 
-project_name = 'SingleFracture0';
-path = strcat(project_path,'\',project_name,'.gid');
 
-% command = strcat(Disroc_path,'\uDisroc.exe',{' '},project_name);
-% command_exec = command{1};
-% system(command_exec)
 %%
 TimeIncrement = 1;
-TimeEndRatio = 1;
+TimeEndRatio = 20;
 plotJointElemNo = 5;
 %%
-fnameJointMecha = strcat(path,'\','201.jointMecha.dat');
+fnameJointMecha = strcat(Material.proj_path,'\','201.jointMecha.dat');
 fidJointMecha   = fopen(fnameJointMecha,'r');
 cellJoinMecha   = textscan(fidJointMecha, '%f %d %f %f %f %f %f %f %f','Headerlines',1);
 TimeEnd = floor(length(cellJoinMecha{1})/TimeEndRatio);
@@ -25,7 +20,7 @@ Utp     = cellJoinMecha{7}(1:TimeIncrement:TimeEnd);
 Unp     = cellJoinMecha{8}(1:TimeIncrement:TimeEnd);
 Damage  = cellJoinMecha{9}(1:TimeIncrement:TimeEnd);
 fclose(fidJointMecha);
-
+%%
 % Time evolution plot
 isPlot = NoElem==plotJointElemNo;
 f1 = figure(1); hold on;
@@ -34,8 +29,8 @@ plot(Time(isPlot), Tau(isPlot)/1e6,'r')
 % plot([Time(1),Time(end)], Tau(end)*[1,1]/1e6)
 plot(Time(isPlot), Sn(isPlot)/1e6,'b')
 % % plot(Time(isPlot), Tau(isPlot)./Sn(isPlot),'-k')
-plot(Time(isPlot), Utp(isPlot)/Utp(end))
-plot(Time(isPlot), Damage(isPlot))
+% plot(Time(isPlot), Utp(isPlot)/Utp(end))
+% plot(Time(isPlot), Damage(isPlot))
 
 
 %% Optimized parameters:

@@ -63,6 +63,18 @@
 
 # readDatFile
 
+    prob_info.
+              proj_name
+              proj_path   containing '.gid'
+              coordinate
+              connectivity.
+                           matrix
+                           joint
+              numNode
+              numElem
+              numJointElem
+              numMat
+
 
 ## structure of Disroc file
 |Start| End| Content|

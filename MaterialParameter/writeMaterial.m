@@ -2,7 +2,7 @@ function writeMaterial(Material)
 
 %%
 % Material.
-%          project_path
+%          proj_path
 %          project_name
 %          total_number
 %          type{i}.
@@ -17,7 +17,7 @@ function writeMaterial(Material)
 %                        numPara
 %                        Para(1:numPara)
 % %                  couplingPar(1:3)
-fname = strcat(Material.project_path,'\', 'Mats.dat');
+fname = strcat(Material.proj_path,'\', 'Mats.dat');
 fid = fopen( fname,'w+');
 
 fprintf(fid, '%s\n','Disroc5');

@@ -1,1 +1,0 @@
-function nodeNumList = identifyNodesOnBoundary()

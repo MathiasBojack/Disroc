@@ -2,9 +2,9 @@ function prob_info = readDatFile(prob_info)
 
 
 proj_name       = erase(prob_info.proj_name,'.gid');
-project_path    = prob_info.project_path;
+proj_path    = prob_info.proj_path;
 
-fname = strcat(project_path,'\',proj_name,'.gid','\',proj_name,'.dat');
+fname = strcat(proj_path,'\',proj_name,'.dat');
 
 fid = fopen(fname,'r+');
 
@@ -15,6 +15,12 @@ numNode         = l2_1{1}(1);
 numElem         = l2_1{1}(3);
 numJointElem    = l2_1{1}(4); 
 numMat          = l2_1{1}(5); 
+
+prob_info.numNode       = numNode;
+prob_info.numElem       = numElem;
+prob_info.numJointElem  = numJointElem;
+prob_info.numMat        = numMat;
+
 l3   = textscan(fid,'%s',1);  % coordinates
 l4   = textscan(fid, '%d %f %f', numNode,'Delimiter',{','});
 
@@ -35,7 +41,7 @@ if numJointElem >0
     prob_info.connectivity.joint(:,1) = l7{3}(:);
     prob_info.connectivity.joint(:,2) = l7{4}(:);
     prob_info.connectivity.joint(:,3) = l7{5}(:);
-    prob_info.connectivity.joint(:,3) = l7{6}(:);
+    prob_info.connectivity.joint(:,4) = l7{6}(:);
 end
 l8 = textscan(fid,'%s',1);  % materials
 l9 = textscan(fid,'%d %d %s',numMat,'Delimiter',',');

@@ -1,6 +1,6 @@
 function writeParam(Parameter)
 
-fname = strcat(Parameter.project_path,'\', 'Param.dat');
+fname = strcat(Parameter.proj_path,'\', 'Param.dat');
 
 fid = fopen( fname,'w+');
 

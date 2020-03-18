@@ -1,10 +1,14 @@
-% File operation
-fid = fopen('prj_name.txt','r');
-l1  = fscanf(fid,'%s');
-fclose(fid);
+% % File operation
+% fid = fopen('prj_name.txt','r');
+% l1  = fscanf(fid,'%s');
+% fclose(fid);
+
+
+proj_name = 'SingleFracture0.gid';
+
 % Parameter file
-Parameter.project_path = strcat(project_path,'\',l1);
-Parameter.project_name = l1;
+Parameter.proj_path = strcat(proj_path,'\',proj_name);
+Parameter.proj_name = proj_name ;
 %% Problem type information
 Parameter.problem.physics      = 1; %1:Mechanics, 2:Hydraulic, 3:Thermal, 4:HM, 5:TM, 6:THM
 Parameter.problem.time         = 1; %1:Time Independent, 2:Transient

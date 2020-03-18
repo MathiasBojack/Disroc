@@ -1,10 +1,11 @@
 % File operation
-fid = fopen('prj_name.txt','r');
-l1  = fscanf(fid,'%s');
-fclose(fid);
+% fid = fopen('prj_name.txt','r');
+% l1  = fscanf(fid,'%s');
+% fclose(fid);
 % Parameter file
-Material.project_path = strcat(project_path,'\',l1);
-Material.project_name = l1;
+proj_name = 'SingleFracture0.gid';
+Material.proj_path = strcat(proj_path,'\',proj_name);
+Material.proj_name = proj_name;
 
 
 Material.total_number = 2;
