@@ -16,8 +16,7 @@ function writeMaterial(Material)
 %                        modelnum
 %                        numPara
 %                        Para(1:numPara)
-%                  couplingPar(1:3)
-
+% %                  couplingPar(1:3)
 fname = strcat(Material.project_path,'\', 'Mats.dat');
 fid = fopen( fname,'w+');
 
@@ -57,16 +56,16 @@ for i = 1: Material.total_number
     l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 8}...
         = '0 0 ! Model, Nb of parameters';
     fprintf(fid, '%s\n',...
-        l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 8})
+        l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 8});
     l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 9}...
         = 'Couplings-rho-biot-alpha:';    
     fprintf(fid, '%s\n',...
-        l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 9})
+        l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 9});
     temp = strcat(num2str(Material.type{i}.nature),{' '},'3');
     l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 10}...
         = temp{1};
     fprintf(fid, '%s\n',...
-        l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 10})
+        l{Material.type{i}.mecha.numPara + Material.type{i}.hydro.numPara + 10});
     
     for j =1 :3
         fprintf(fid, '%s\n', num2str(Material.type{i}.couplingPar(j)) ) ;
@@ -74,7 +73,7 @@ for i = 1: Material.total_number
     
 end
 
-
+fclose(fid);
 
 
 end

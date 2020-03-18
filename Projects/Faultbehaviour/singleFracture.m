@@ -8,7 +8,7 @@ path = strcat(project_path,'\',project_name,'.gid');
 % system(command_exec)
 %%
 TimeIncrement = 1;
-TimeEndRatio = 30;
+TimeEndRatio = 1;
 plotJointElemNo = 5;
 %%
 fnameJointMecha = strcat(path,'\','201.jointMecha.dat');
@@ -28,14 +28,15 @@ fclose(fidJointMecha);
 
 % Time evolution plot
 isPlot = NoElem==plotJointElemNo;
-figure(1); hold on;
+f1 = figure(1); hold on;
 plot(Time(isPlot), Tau(isPlot)/1e6,'r')
 % plot asymptotic line
 % plot([Time(1),Time(end)], Tau(end)*[1,1]/1e6)
-% plot(Time(isPlot), Sn(isPlot)/1e6,'b')
+plot(Time(isPlot), Sn(isPlot)/1e6,'b')
 % % plot(Time(isPlot), Tau(isPlot)./Sn(isPlot),'-k')
 plot(Time(isPlot), Utp(isPlot)/Utp(end))
 plot(Time(isPlot), Damage(isPlot))
+
 
 %% Optimized parameters:
 

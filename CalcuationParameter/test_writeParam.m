@@ -1,7 +1,7 @@
 % File operation
 fid = fopen('prj_name.txt','r');
 l1  = fscanf(fid,'%s');
-
+fclose(fid);
 % Parameter file
 Parameter.project_path = strcat(project_path,'\',l1);
 Parameter.project_name = l1;

@@ -129,11 +129,30 @@ All the other variables:
 
 $k_t =2e8MPa, K_n=5e8MPa, e=10m,\sigma_R = 1.2MPa, C=5.8MPa, \phi=31,h_r=0.33$
 
-|Case|$beta$|$beta'$|plasticity|
-|--- |---   |--     |--        |
-|101 | 1    |  1    | 0        |
-|102 | 0.1  |  1    | 0        |
-|103 | 1.8  |  1    | 0        |
-|201 | 1    |  1    | 1        |
-|202 | 0.1  |  1    | 1        |
-|203 | 1.8  |  1    | 1        |
+|Case|$beta$|$beta'$|plasticity| $\sigma_n$|
+|--- |---   |--     |--        |--         |
+|1   | 1    |  1    | 0        |  -1MPa    |
+|2   | 0.1  |  1    | 0        |  -1MPa    |
+|3   | 1.8  |  1    | 0        |  -1MPa    |
+|4   | 1    |  1    | 1        |  -1MPa    |
+|5   | 0.1  |  1    | 1        |  -1MPa    |
+|6   | 1.8  |  1    | 1        |  -1MPa    |
+|7   | 1    |  1    | 0        |  -30MPa   |
+|8   | 0.1  |  1    | 0        |  -30MPa   |
+|9   | 1.8  |  1    | 0        |  -30MPa   |
+|10  | 1    |  1    | 1        |  -30MPa   |
+|11  | 0.1  |  1    | 1        |  -30MPa   |
+|12  | 1.8  |  1    | 1        |  -30MPa   |
+
+![pic](./Projects/Faultbehaviour/SingleFracutre1.png =400x) 
+![pic](./Projects/Faultbehaviour/SingleFracutre2.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre3.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre4.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre5.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre6.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre7.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre8.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre9.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre10.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre11.png =400x)
+![pic](./Projects/Faultbehaviour/SingleFracutre12.png =400x)
