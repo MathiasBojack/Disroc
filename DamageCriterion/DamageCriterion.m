@@ -13,7 +13,7 @@ gD(index2 ) = 0;
 
 hD          = hr+(1-D).^beta_angle*(1-hr);
 c           = crit_Parameter.c;
-sR     = crit_Parameter.sR;
+sR          = crit_Parameter.sR;
 phi         = crit_Parameter.phi/180*pi;
 tau_c       = (c^2+(sR*tan(phi))^2 ) / (2*sR*tan(phi));
 

@@ -4,10 +4,10 @@
 % beta_list = 10.^(-0.5:0.1:0.5);
 % beta_angle_list = 10.^(-0.5:0.1:0.5);
 % hr_list = 0.6:0.1:0.9;
-D=0
+
 beta_list = [0.1]
 beta_angle_list = [1];
-hr_list = 0.33;
+hr_list = 1;
 
 % beta = 0.1;
 % beta_angle = 1;

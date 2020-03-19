@@ -12,9 +12,9 @@ beta_list                 = kron(ones(1,4),[1,0.1,1.8])';
 beta_angle_list           = ones(1,12)';
 plasticity_indicator_list = [zeros(1,3), ones(1,3), zeros(1,3), ones(1,3)]';
 sn_indicator_list         = [103*ones(1,6), 104*ones(1,6)]';
-
-for i = 1:length(beta_list)
-    
+% 
+% for i = 1:length(beta_list)
+ for i = 11:11   
 sR           = 1.2e6;
 c            = 5.8e6;
 phi          = 31;
@@ -28,7 +28,7 @@ fid = fopen('prj_name.txt','r');
 l1  = fscanf(fid,'%s');
 fclose(fid);
 % Parameter file
-Parameter.project_path = strcat(project_path,'\',l1);
+Parameter.proj_path = strcat(proj_path,'\',l1);
 Parameter.project_name = l1;
 % Problem type information
 Parameter.problem.physics      = 1; %1:Mechanics, 2:Hydraulic, 3:Thermal, 4:HM, 5:TM, 6:THM
@@ -72,7 +72,7 @@ Parameter.calpara.time.increment        = 1e-1;
 
 
 % Parameter file
-Material.project_path = strcat(project_path,'\',l1);
+Material.proj_path = strcat(proj_path,'\',l1);
 Material.project_name = l1;
 
 
@@ -109,8 +109,8 @@ Material.type{2}.mecha.Para(6)   = phi;       % phi
 Material.type{2}.mecha.Para(7)   = hr;     % h  0.33
 Material.type{2}.mecha.Para(8)   = beta;      % beta  0.1
 Material.type{2}.mecha.Para(9)   = beta_angle;        % beta' 1
-Material.type{2}.mecha.Para(10)  = 1e8;      % k0t
-Material.type{2}.mecha.Para(11)  = 1e10;      % knt
+Material.type{2}.mecha.Para(10)  = 1e6;      % k0t
+Material.type{2}.mecha.Para(11)  = 1e7;      % knt
 Material.type{2}.mecha.Para(12)  = 1;        % 
 
 Material.type{2}.hydro.modelnum = 0;
@@ -130,7 +130,7 @@ TimeIncrement = 1;
 TimeEndRatio = 10;
 plotJointElemNo = 5;
 %
-fnameJointMecha = strcat(path,'\','201.jointMecha.dat');
+fnameJointMecha = strcat(Parameter.proj_path,'\','201.jointMecha.dat');
 fidJointMecha   = fopen(fnameJointMecha,'r');
 cellJoinMecha   = textscan(fidJointMecha, '%f %d %f %f %f %f %f %f %f','Headerlines',1);
 TimeEnd = floor(length(cellJoinMecha{1})/TimeEndRatio);
@@ -163,7 +163,7 @@ clf;hold on;
 plot(Time(isPlot), Tau(isPlot)/1e6,'r')
 % plot asymptotic line
 % plot([Time(1),Time(end)], Tau(end)*[1,1]/1e6)
-% plot(Time(isPlot), Sn(isPlot)/1e6,'b')
+plot(Time(isPlot), Sn(isPlot)/1e6,'b')
 % % plot(Time(isPlot), Tau(isPlot)./Sn(isPlot),'-k')
 % plot(Time(isPlot), Utp(isPlot)/Utp(end))
 plot(Time(isPlot), Damage(isPlot))
@@ -176,7 +176,7 @@ xlabel('Load','interpreter','latex')
 ylabel('Shear stress','interpreter','latex')
 legend(leg_txt,'interpreter','latex')
 
-figname = strcat('F:\13.Code\Git\Disroc\Projects\Faultbehaviour\SingleFracutre',num2str(i),'.png') ;
-saveas(f1,figname)
+% figname = strcat('F:\13.Code\Git\Disroc\Projects\Faultbehaviour\SingleFracutre',num2str(i),'.png') ;
+% saveas(f1,figname)
 
 end

@@ -1,4 +1,4 @@
-SingleFracture1_step1
+SingleFracture2_step1
 
 Imposed_disp = 5e-1;
 
@@ -69,48 +69,6 @@ Parameter.calpara.time.end              = 1;
 Parameter.calpara.time.increment        = 1e-1;
 
 
-%% write material parameters
-
-
-% Parameter file
-Material.proj_path = prob_info.proj_path;
-Material.proj_name = prob_info.proj_name;
-
-Material.total_number = 2;
-
-% LinearElastic
-
-Material.type{1}.name = 'LinearElastic';
-Material.type{1}.nature = 30000;
-Material.type{1}.mecha.modelnum = 31100;
-Material.type{1}.mecha.numPara  = 2;
-Material.type{1}.mecha.Para(1)  = 1e10;  % Young's modulus
-Material.type{1}.mecha.Para(2)  = 0.25;  % Poisson
-Material.type{1}.hydro.modelnum = 0;
-Material.type{1}.hydro.numPara  = 0;
-Material.type{1}.couplingPar(1) = 0;    % selfweight
-Material.type{1}.couplingPar(2) = 0;  % biot's coefficient
-Material.type{1}.couplingPar(3) = 0;    % thermoespansion
-
-
-% Fracture1
-
-Material.type{2}.name = 'Fracture1';
-Material.type{2}.nature = 20000;
-Material.type{2}.mecha.modelnum  = 21120;
-Material.type{2}.mecha.numPara   = 5;
-Material.type{2}.mecha.Para(1)   = Kt;      % Kt 
-Material.type{2}.mecha.Para(2)   = Kn;      % Kn
-Material.type{2}.mecha.Para(3)   = 10;       % Knt
-Material.type{2}.mecha.Para(4)   = c;       % c
-Material.type{2}.mecha.Para(5)   = phi;       % phi
-
-
-Material.type{2}.hydro.modelnum = 0;
-Material.type{2}.hydro.numPara  = 0;
-Material.type{2}.couplingPar(1) = 0;    % selfweight
-Material.type{2}.couplingPar(2) = 0;  % biot's coefficient
-Material.type{2}.couplingPar(3) = 0;    % thermoespansion
 
 %% run Disroc
 runDisroc(Parameter,Material,Disroc_path)
@@ -127,7 +85,10 @@ cmd_txt = ['copy', ' ', Parameter.proj_path,'\',...
      foldername,'\',erase(Parameter.proj_name,'gid'), '*'];
  system(cmd_txt)
  
- %% Plot
+ 
+ 
+
+%% Plot
 
 TimeIncrement = 1;
 TimeEndRatio = 1;
@@ -148,7 +109,16 @@ Unp     = cellJoinMecha{8}(1:TimeIncrement:TimeEnd);
 Damage  = cellJoinMecha{9}(1:TimeIncrement:TimeEnd);
 fclose(fidJointMecha);
 
-
+crit_Parameter.beta       = beta;
+crit_Parameter.beta_angle = beta_angle;
+crit_Parameter.hr         = hr;
+crit_Parameter.Damage     = Damage;
+crit_Parameter.c          = Cohesion;
+crit_Parameter.sR         = sigma_R;
+crit_Parameter.phi        = phi;
+crit_Parameter.tau        = Tau;
+crit_Parameter.sn         = Sn;
+Fun_crit                  = damageCriterion(crit_Parameter);
 % Time evolution plot
 isPlot = NoElem==plotJointElemNo;
 f1 = figure(1); 
@@ -160,7 +130,10 @@ plot(Time(isPlot), Tau(isPlot)/1e6,'r')
 plot(Time(isPlot), Sn(isPlot)/1e6,'b')
 % % plot(Time(isPlot), Tau(isPlot)./Sn(isPlot),'-k')
 % plot(Time(isPlot), Utp(isPlot)/Utp(end))
-% plot(Time(isPlot), Damage(isPlot))
+plot(Time(isPlot), Damage(isPlot))
+% plot(Time(isPlot), Fun_crit(isPlot))
+
+
 
 xlabel('Shear displacement [/m]','interpreter','latex')
 ylabel('Stress [/MPa]','interpreter','latex')
@@ -170,4 +143,4 @@ legtex{2} = '$\sigma_n$';
 legend(legtex,'interpreter','latex','Location','best');
 grid on;
 box on;
-saveas(f1,'.\Projects\Faultbehaviour\SingleFracture1\Mohr-Colomb.pdf')
+saveas(f1,'.\Projects\Faultbehaviour\SingleFracture2\Mohr-Colomb.pdf')

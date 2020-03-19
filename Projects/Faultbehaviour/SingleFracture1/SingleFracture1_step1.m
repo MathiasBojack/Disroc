@@ -1,5 +1,7 @@
 clear;
 Path_Control
+
+%% Mohr-Coulom fracture
 %%
 Kt = 2e8;
 Kn = 5e8;

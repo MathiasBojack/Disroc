@@ -1,4 +1,6 @@
-SingleFracture0_step1
+SingleFracture2_step1
+
+Imposed_disp = 5e-1;
 
 %% Resumption
 resumption.active      = 1;
@@ -9,8 +11,8 @@ saveas_step.number     = 2;
 
 clear boundary;
 boundary.Ux.count = 4;
-boundary.Ux.text{1} = '3 , 2e2, 0.0, 0.0';
-boundary.Ux.text{2} = '4 , 2e2, 0.0, 0.0';
+boundary.Ux.text{1} = ['3 ,' num2str(Imposed_disp) ', 0.0, 0.0'];
+boundary.Ux.text{2} = ['4 ,' num2str(Imposed_disp) ', 0.0, 0.0'];
 boundary.Ux.text{3} = '7 , 0.0, 0.0, 0.0';
 boundary.Ux.text{4} = '8 , 0.0, 0.0, 0.0';
 
@@ -83,6 +85,62 @@ cmd_txt = ['copy', ' ', Parameter.proj_path,'\',...
      foldername,'\',erase(Parameter.proj_name,'gid'), '*'];
  system(cmd_txt)
  
- %% Plot
- singleFracturePlot
+ 
+ 
 
+%% Plot
+
+TimeIncrement = 1;
+TimeEndRatio = 1;
+plotJointElemNo = 5;
+%
+fnameJointMecha = strcat(Material.proj_path,'\','201.jointMecha.dat');
+fidJointMecha   = fopen(fnameJointMecha,'r');
+cellJoinMecha   = textscan(fidJointMecha, '%f %d %f %f %f %f %f %f %f','Headerlines',1);
+TimeEnd = floor(length(cellJoinMecha{1})/TimeEndRatio);
+Time    = cellJoinMecha{1}(1:TimeIncrement:TimeEnd)*Imposed_disp;
+NoElem  = cellJoinMecha{2}(1:TimeIncrement:TimeEnd);
+Ut      = cellJoinMecha{3}(1:TimeIncrement:TimeEnd);
+Un      = cellJoinMecha{4}(1:TimeIncrement:TimeEnd);
+Tau     = cellJoinMecha{5}(1:TimeIncrement:TimeEnd);
+Sn      = cellJoinMecha{6}(1:TimeIncrement:TimeEnd);
+Utp     = cellJoinMecha{7}(1:TimeIncrement:TimeEnd);
+Unp     = cellJoinMecha{8}(1:TimeIncrement:TimeEnd);
+Damage  = cellJoinMecha{9}(1:TimeIncrement:TimeEnd);
+fclose(fidJointMecha);
+
+crit_Parameter.beta       = beta;
+crit_Parameter.beta_angle = beta_angle;
+crit_Parameter.hr         = hr;
+crit_Parameter.Damage     = Damage;
+crit_Parameter.c          = Cohesion;
+crit_Parameter.sR         = sigma_R;
+crit_Parameter.phi        = phi;
+crit_Parameter.tau        = Tau;
+crit_Parameter.sn         = Sn;
+Fun_crit                  = damageCriterion(crit_Parameter);
+% Time evolution plot
+isPlot = NoElem==plotJointElemNo;
+f1 = figure(1); 
+clf;
+hold on;
+plot(Time(isPlot), Tau(isPlot)/1e6,'r')
+% plot asymptotic line
+% plot([Time(1),Time(end)], Tau(end)*[1,1]/1e6)
+plot(Time(isPlot), Sn(isPlot)/1e6,'b')
+% % plot(Time(isPlot), Tau(isPlot)./Sn(isPlot),'-k')
+% plot(Time(isPlot), Utp(isPlot)/Utp(end))
+% plot(Time(isPlot), Damage(isPlot))
+% plot(Time(isPlot), Fun_crit(isPlot))
+
+
+
+xlabel('Shear displacement [/m]','interpreter','latex')
+ylabel('Stress [/MPa]','interpreter','latex')
+title('Fault with Mohr-Coulomb Failure criteria','interpreter','latex')
+legtex{1} = '$\tau$';
+legtex{2} = '$\sigma_n$';
+legend(legtex,'interpreter','latex','Location','best');
+grid on;
+box on;
+saveas(f1,'.\Projects\Faultbehaviour\SingleFracture2\CohesiveFracture.pdf')

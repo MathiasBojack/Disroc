@@ -3,7 +3,7 @@ clc
 
 %%
 TimeIncrement = 1;
-TimeEndRatio = 20;
+TimeEndRatio = 1;
 plotJointElemNo = 5;
 %%
 fnameJointMecha = strcat(Material.proj_path,'\','201.jointMecha.dat');
@@ -23,14 +23,16 @@ fclose(fidJointMecha);
 %%
 % Time evolution plot
 isPlot = NoElem==plotJointElemNo;
-f1 = figure(1); hold on;
+f1 = figure(1); 
+clf;
+hold on;
 plot(Time(isPlot), Tau(isPlot)/1e6,'r')
 % plot asymptotic line
 % plot([Time(1),Time(end)], Tau(end)*[1,1]/1e6)
 plot(Time(isPlot), Sn(isPlot)/1e6,'b')
 % % plot(Time(isPlot), Tau(isPlot)./Sn(isPlot),'-k')
 % plot(Time(isPlot), Utp(isPlot)/Utp(end))
-% plot(Time(isPlot), Damage(isPlot))
+plot(Time(isPlot), Damage(isPlot))
 
 
 %% Optimized parameters:
