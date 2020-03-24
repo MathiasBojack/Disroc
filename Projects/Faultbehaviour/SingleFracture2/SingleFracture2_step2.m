@@ -1,6 +1,6 @@
 SingleFracture2_step1
 
-Imposed_disp = 5e-1;
+Imposed_disp = 1e-1;
 
 %% Resumption
 resumption.active      = 1;
@@ -11,14 +11,29 @@ saveas_step.number     = 2;
 
 clear boundary;
 boundary.Ux.count = 4;
+joint_nodes_I = prob_info.connectivity.joint(:,1);
+joint_nodes_J = prob_info.connectivity.joint(:,2);
+joint_lower   = union(joint_nodes_I,joint_nodes_J);
+joint_nodes_K = prob_info.connectivity.joint(:,3);
+joint_nodes_L = prob_info.connectivity.joint(:,4);
+joint_upper   = union(joint_nodes_K,joint_nodes_L);
+
 boundary.Ux.text{1} = ['3 ,' num2str(Imposed_disp) ', 0.0, 0.0'];
 boundary.Ux.text{2} = ['4 ,' num2str(Imposed_disp) ', 0.0, 0.0'];
 boundary.Ux.text{3} = '7 , 0.0, 0.0, 0.0';
 boundary.Ux.text{4} = '8 , 0.0, 0.0, 0.0';
 
+% boundary.Ux.count = 2;
+% boundary.Ux.text{1} = '7 , 0.0, 0.0, 0.0';
+% boundary.Ux.text{2} = '8 , 0.0, 0.0, 0.0';
+% boundary.Tau.count = 1;
+% boundary.Tau.text{1} = '3,4, 23.3e6,0,0';
+
+
 boundary.Uy.count = 2;
 boundary.Uy.text{1} = '7 , 0.0, 0.0, 0.0';
 boundary.Uy.text{2} = '8 , 0.0, 0.0, 0.0';
+
 
 
 writeBoundaryConditions( prob_info,boundary )
@@ -124,7 +139,7 @@ isPlot = NoElem==plotJointElemNo;
 f1 = figure(1); 
 clf;
 hold on;
-plot(Time(isPlot), Tau(isPlot)/1e6,'r')
+plot(Ut(isPlot), Tau(isPlot)/1e6,'r')
 % plot asymptotic line
 % plot([Time(1),Time(end)], Tau(end)*[1,1]/1e6)
 plot(Time(isPlot), Sn(isPlot)/1e6,'b')
@@ -137,10 +152,43 @@ plot(Time(isPlot), Sn(isPlot)/1e6,'b')
 
 xlabel('Shear displacement [/m]','interpreter','latex')
 ylabel('Stress [/MPa]','interpreter','latex')
-title('Fault with Mohr-Coulomb Failure criteria','interpreter','latex')
+title('Fault with Cohesive damage criteria','interpreter','latex')
 legtex{1} = '$\tau$';
 legtex{2} = '$\sigma_n$';
 legend(legtex,'interpreter','latex','Location','best');
 grid on;
 box on;
-saveas(f1,'.\Projects\Faultbehaviour\SingleFracture2\CohesiveFracture.pdf')
+% saveas(f1,'.\Projects\Faultbehaviour\SingleFracture2\CohesiveFracture.pdf')
+
+%% plot joint results along the fault
+
+
+faultplot.X = prob_info.coordinate(joint_nodes_I,1);
+numStepCalculated = length(cellJoinMecha{1})/prob_info.numJointElem;
+faultplot.stepInitial = 1;
+faultplot.indexInitial = ((faultplot.stepInitial-1)*prob_info.numJointElem + (1:prob_info.numJointElem))';
+faultplot.UtInitial   = cellJoinMecha{3}(faultplot.indexInitial);
+faultplot.TauInitial   = cellJoinMecha{5}(faultplot.indexInitial);
+faultplot.SnInitial   = cellJoinMecha{6}(faultplot.indexInitial);
+
+figure(2);clf;hold on;
+ylabel('$Ut$ [/m]','interpreter','latex')
+
+figure(3);clf;hold on;
+ylabel('$\tau$ [/MPa]','interpreter','latex')
+
+figure(4);clf;hold on;
+ylabel('$\sigma_n$ [/MPa]','interpreter','latex')
+
+step_list = [1 10 20 34];
+for i = 1:length(step_list)
+    faultplot.step = step_list(i);
+    faultplot.index = ((faultplot.step-1)*prob_info.numJointElem + (1:prob_info.numJointElem))';
+    faultplot.Ut   = cellJoinMecha{3}(faultplot.index);
+    faultplot.Un   = cellJoinMecha{4}(faultplot.index);
+    faultplot.Tau  = cellJoinMecha{5}(faultplot.index);
+    faultplot.Sn   = cellJoinMecha{6}(faultplot.index);
+    figure(2);plot(faultplot.Ut - faultplot.UtInitial,faultplot.X)
+    figure(3);plot((faultplot.Tau -faultplot.TauInitial)/1e6 ,faultplot.X);
+    figure(4);plot((faultplot.Sn-faultplot.SnInitial)/1e6 ,faultplot.X);
+end

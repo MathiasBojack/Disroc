@@ -18,7 +18,7 @@ end
 %% Ux
 
 
-if isfield(boundary,'Ux')==0
+if isfield(boundary,'Ux')==0 || (boundary.Ux.count ==0)
     tline = '1, 0  -----------Ux';
     fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
 elseif boundary.Ux.count~=0
@@ -31,7 +31,7 @@ elseif boundary.Ux.count~=0
 end
 
 %% Uy
-if isfield(boundary,'Uy')==0
+if isfield(boundary,'Uy')==0 || (boundary.Uy.count ==0)
     tline = '2, 0  -----------Uy';
     fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
 elseif boundary.Uy.count~=0
@@ -45,7 +45,7 @@ end
 %% P
 
 
-if isfield(boundary,'P')==0
+if isfield(boundary,'P')==0 || (boundary.P.count ==0)
     tline = '3, 0  -----------P';
     fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
 elseif boundary.P.count~=0
@@ -60,7 +60,7 @@ end
 %% Sn
 
 
-if isfield(boundary,'Sn')==0
+if isfield(boundary,'Sn')==0 || (boundary.Sn.count ==0)
     tline = '4, 0  -----------Sn';
     fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
 elseif boundary.Sn.count~=0
@@ -73,14 +73,14 @@ elseif boundary.Sn.count~=0
 end
 
 %% Tau
-if isfield(boundary,'Tau')==0
-    tline = '5, 0  -----------Sn';
+if isfield(boundary,'Tau')==0 || (boundary.Tau.count ==0)
+    tline = '5, 0  -----------Tau';
     fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
 elseif boundary.Tau.count~=0
     tline = ['5, ', num2str(boundary.Tau.count), ' -----------Tau'];
     fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
-    for k = 1:boundary.Sn.count
-        tline = boundary.Sn.text{k};
+    for k = 1:boundary.Tau.count
+        tline = boundary.Tau.text{k};
         fprintf(fid_temp,'%s',tline);fprintf(fid_temp,'\n');
     end
 end

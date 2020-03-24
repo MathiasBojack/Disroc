@@ -4,7 +4,8 @@ clc
 %%
 TimeIncrement = 1;
 TimeEndRatio = 1;
-plotJointElemNo = 5;
+% plotJointElemNo = 5;   % SingleFracture
+% plotJointElemNo = 5435;  % Induced101
 %%
 fnameJointMecha = strcat(Material.proj_path,'\','201.jointMecha.dat');
 fidJointMecha   = fopen(fnameJointMecha,'r');
